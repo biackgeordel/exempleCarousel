@@ -47,10 +47,11 @@ function scroll(listElement) {
   boutonSuivant.addEventListener("click", () => {
     if (retour) {
       tabdeplacement = deplacement(list);
-      // index++;
       retour = false;
     }
-    listNew = scrollRight(list, tabdeplacement);
+    setTimeout(() => {
+      listNew = scrollRight(list, tabdeplacement);
+    }, 40);
   });
 
   boutonPrecedent.addEventListener("click", () => {
@@ -59,19 +60,23 @@ function scroll(listElement) {
       retour = false;
     }
     console.log("index retour", index);
-    scrollLeft(listNew, tabdeplacement);
+
+    setTimeout(() => {
+      scrollLeft(listNew, tabdeplacement);
+    }, 40);
   });
 }
 scroll(tabElement);
 
 function scrollRight(list, tabdeplacement) {
-  console.log(...tabdeplacement);
-  console.log(tabdeplacement[index]);
-  list = list.map((element) => {
-    element.style.transform = `translateX(-${tabdeplacement[index]}px)`;
-    return element;
-  });
-  if (index < list.length - 2) {
+  if (index < list.length - 1) {
+    console.log(...tabdeplacement);
+    console.log(tabdeplacement[index]);
+    list = list.map((element) => {
+      element.style.transform = `translateX(-${tabdeplacement[index]}px)`;
+      return element;
+    });
+
     index++;
   }
   return list;

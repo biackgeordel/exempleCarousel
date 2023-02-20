@@ -23,15 +23,33 @@ html,
 }
 .element-scroll {
   flex: 0 0 50%; /*width*/
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
   padding: calc((70% - 60%) / 4);
   transition: 0.5s transform cubic-bezier(0.21, 0.66, 0.39, 0.43);
   text-align: center;
 }
 .element {
-  background: #2c3e50;
+  /* background: #2c3e50; */
   color: white;
   padding: 10rem 2rem;
+}
+.element-scroll:nth-child(1) .element {
+  background: #e67e22;
+}
+.element-scroll:nth-child(2) .element {
+  background: #95a5a6;
+}
+.element-scroll:nth-child(3) .element {
+  background: #7f8c8d;
+}
+.element-scroll:nth-child(4) .element {
+  background: #34495e;
+}
+.element-scroll:nth-child(5) .element {
+  background: #3498db;
+}
+.element-scroll:nth-child(6) .element {
+  background: #c0392b;
 }
 
 .btn {
