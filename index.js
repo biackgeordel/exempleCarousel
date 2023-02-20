@@ -6,6 +6,8 @@ const tabElement = containerScroll.querySelectorAll(".element-scroll");
 
 let index = 0;
 targetCurrent = 0; //tag move
+let retour = false;
+
 const deplacement = (tabBloc) => {
   let pos = 0;
   return tabBloc.reduce((acc, element) => {
@@ -29,8 +31,12 @@ const init = (list) => {
   list.forEach((element) => {
     element.style.transform = `translateX(0px)`;
   });
-  console.log("init: ", ...list);
-  retour = true;
+};
+const positionReel = (list, tabdeplacement) => {
+  list.forEach((element) => {
+    element.style.transform = `translateX(-${tabdeplacement[index - 1]}px)`;
+  });
+  return true;
 };
 
 function scroll(listElement) {
@@ -39,43 +45,60 @@ function scroll(listElement) {
   let listNew;
   let tabdeplacement = deplacement(list);
   boutonSuivant.addEventListener("click", () => {
+    if (retour) {
+      tabdeplacement = deplacement(list);
+      // index++;
+      retour = false;
+    }
     listNew = scrollRight(list, tabdeplacement);
   });
+
   boutonPrecedent.addEventListener("click", () => {
-    console.log("index retour", index);
-
-    if (index > 0) {
-      index--;
-
-      if (index === 0) {
-        init(listNew);
-      } else {
-        listNew = listNew.map((element) => {
-          element.style.transform = `translateX(-${
-            tabdeplacement[index - 1]
-          }px)`;
-          return element;
-        });
-      }
+    if (retour) {
+      tabdeplacement = deplacement(list);
+      retour = false;
     }
+    console.log("index retour", index);
+    scrollLeft(listNew, tabdeplacement);
   });
 }
 scroll(tabElement);
 
 function scrollRight(list, tabdeplacement) {
-  console.log("right", tabdeplacement[index]);
+  console.log(...tabdeplacement);
+  console.log(tabdeplacement[index]);
   list = list.map((element) => {
     element.style.transform = `translateX(-${tabdeplacement[index]}px)`;
     return element;
   });
-  console.log(list);
-
-  if (index < list.length - 1) {
+  if (index < list.length - 2) {
     index++;
   }
   return list;
 }
 
+function scrollLeft(listNew, tabdeplacement) {
+  if (index > 0) {
+    index--;
+
+    if (index === 0) {
+      init(listNew);
+    } else {
+      listNew = listNew.map((element) => {
+        element.style.transform = `translateX(-${tabdeplacement[index - 1]}px)`;
+        return element;
+      });
+    }
+  }
+}
+
 window.addEventListener("resize", () => {
-  init([...tabElement]);
+  const list = [...tabElement];
+  console.log(index);
+  const position = deplacement(list);
+  if (index !== 0) {
+    retour = positionReel(list, position);
+  } else {
+    init(list);
+  }
 });
